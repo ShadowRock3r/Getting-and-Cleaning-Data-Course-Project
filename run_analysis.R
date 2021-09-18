@@ -65,5 +65,5 @@ for(i in activityLabels$activity_code){
 tidyData <- data.frame(dataSet %>% 
                 group_by(subject, activity) %>%
                   summarise(across(everything(), mean)))
-write.table(tidyData, "tidydata.txt", sep = "\t" )
+write.table(tidyData, "tidydata.txt", sep = "\t", row.names = FALSE )
 
