@@ -1,4 +1,4 @@
-###COLLECTING DATA###
+###EXTRACTION###
 
 #dowloand and unzip the data and store in the work directory
 if (!file.exists("dataset.zip")){
@@ -22,7 +22,8 @@ subjectTrain <- read.table("./UCI HAR Dataset/train/subject_train.txt")
 activityLabels <- read.table("./UCI HAR Dataset/activity_labels.txt")
 featuresLabels <- read.table("./UCI HAR Dataset/features.txt")
 
-###JOINING DATA###
+###TRANSFORMATION###
+
 library(plyr)
 library(dplyr)
 library(data.table
@@ -58,9 +59,11 @@ for(i in activityLabels$activity_code){
   dataSet[dataSet$activity == i, "activity"] = activityLabels[activityLabels$activity_code == i , "activity"]
 }                                  
 
-#Creating the tidy data with the mean of all variables by subject and activity
-tidyData <- dataSet %>% 
-                group_by(subject, activity) %>%
-                  summarise(across(everything(), mean))
+###LOADING###
 
-tidyData
+#Creating and saving the tidy data with the mean of all variables by subject and activity
+tidyData <- data.frame(dataSet %>% 
+                group_by(subject, activity) %>%
+                  summarise(across(everything(), mean)))
+write.table(tidyData, "tidydata.txt", sep = "\t" )
+
